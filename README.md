@@ -4,28 +4,44 @@
 * [Motivation/Hypothesis](#1-motivation)
 * [Dataset](#2-dataset)
   * [Analysis of the Dataset](#21-analysis-of-the-dataset)
+    * [Overview](#211-overview)
+    * [Data Types and Annotations](#212-data-types-and-annotations)
+    * [Data Transformation](#213-data-transformation)
 * [Models Used](#3-models)
   * [LaneNet](#31-lanenet)
+    * [Architecture](#311-architecture)
+    * [Our Approach](#312-our-approach)
+    * [Loss Functions](#313-loss-functions)
   * [MaskRCNN](#32-maskrcnn)
-  * [FasterRCNN](#33-faster-r-cnn-with-resnet50-fpn)
-* [Loss Function](#loss-functions)
-* [Evaluation Metrics](#evaluation-metrics)
-  * [Intersection Over Union](#intersection-over-union-iou)
-  * [Mean Average Precision](#mean-average-precision-map)
+    * [Components](#321-components)
+    * [Loss Function](#322-loss-function)
+    * [Evaluation Metric](#323-evaluation-metric)
+  * [Faster R-CNN with ResNet50-FPN](#33-faster-r-cnn-with-resnet50-fpn)
+    * [Architecture](#331-architecture)
+    * [ResNet50 Backbone](#332-resnet50-backbone)
+    * [Feature Pyramid Network (FPN)](#333-feature-pyramid-network-fpn)
+    * [Pre-trained Weights (COCO_V1)](#334-pre-trained-weights-coco_v1)
+    * [Loss Functions](#335-loss-functions)
+    * [Evaluation Metrics](#337-evaluation-metrics)
 * [Computational Resources](#4-computational-resources)
-* [How To Run](#how-to-run)
+  * [Lane Net](#41-lane-net)
+  * [Mask R-CNN](#42-mask-r-cnn)
+  * [Faster R-CNN](#43-faster-r-cnn)
 * [Training Models](#5-training)
-* [Challenges](#challenges)
-  * [Exploding Gradients](#exploding-gradients)
-  * [Predictions Positioning](#predictions-positioning)
 * [Transfer Learning](#6-transfer-learning)
   * [Introduction To Transfer Learning](#61-introduction-to-transfer-learning)
   * [Application of Transfer Learning](#62-application-of-transfer-learning-in-this-project)
   * [Transfer Learning Code](#63-transfer-learning-code)
 * [Models Comparison](#7-models-comparison)
-* [Validation With Our Own Images](#validation-with-our-own-images)
-* [Conclusion And Future Work](#conclusion-and-future-work)
-* [References](#references)
+  * [MaskRCNN](#71-maskrcnn)
+  * [LaneNET](#72-lanenet)
+* [Validation With Our Own Images](#8-validation-with-our-own-images)
+* [Validation With Youtube Videos](#9-validation-with-youtube-videos)
+* [Conclusion And Future Work](#10-conclusion-and-future-work)
+* [How To Run](#11-how-to-run)
+* [References](#12-references)
+* [Contributors](#13-contributors)
+
 
 ## 1. Motivation
 
@@ -353,13 +369,13 @@ The results were good, but not as good as we expected. At this point we decided 
 ![alt text](<results/LaneNET v1.png>)
 *Figure3: LaneNET trained with bdd100k dataset*
 
-## Validation With Our Own Images
+## 8. Validation With Our Own Images
 
 The next step was implement both models in a real video to validate real-world performance. It was done using a mobile in a car, driving on the highway.
 
 ![til](https://github.com/jsabahu/AIDL24_SelfDriving/blob/dev/results/MaskRCNN%20vs%20LaneNET.gif)
 
-The LaneNet model (right side) was a lot better than the Mask R-CNN (left side), like we expected. the surprising was that both models were able to detect the lines in really bad quality video.
+The LaneNet model (right side) was a lot better than the Mask R-CNN (left side), like we expected. the surprising was that both models were able to detect the lines.
 
 To achieve our goal we had some troubles like:
   - The images size applied on the model had to match with the trained images size to get good results.
@@ -416,12 +432,19 @@ To decide the color, we use the lower height of the box predicted. The results a
 
 The experiment was a success.
 
-## Conclusion And Future Work
+## 9. Validation with Youtube Videos
+
+| LaneNet | FasterRCNN Object Detection | MaskRCNN Segmentation |
+| ------------- | ------------- | ------------- |
+| ![til](https://github.com/jsabahu/AIDL24_SelfDriving/blob/dev/results/youtube_dashcam_processed_LaneNet.gif)  | ![til](https://github.com/jsabahu/AIDL24_SelfDriving/blob/dev/results/youtube_dashcam_processed_FasterRCNN.gif)  | ![til](https://github.com/jsabahu/AIDL24_SelfDriving/blob/dev/results/youtube_dashcam_processed_MaskRCNN.gif)  |
+
+
+## 10. Conclusion And Future Work
 
 Our project demonstrates how complicate is develop, debug and apply a model from scratch. We confirm how important is start from verified models and if it is possible pre-trained models to save time and resources for training. On the other side, we observe how from the theory, a model can be created from scratch and also works.
 A future work could focus on improve the models performance to be applied faster in real time, add new inputs additionally to a camera and develop a more sophisticated algorithms for self-driving.
 
-## 2. How to run
+## 11. How to run
 
 - Clone repository
 ```
@@ -450,7 +473,7 @@ https://dl.cv.ethz.ch/bdd100k/data/
 python bdd100k_transform.py --src_dir path/to/bdd100k --val True --test True
 ```
 
-## References
+## 12. References
 
 1. [LaneNet: Real-Time Lane Detection Networks for Autonomous Driving](https://arxiv.org/pdf/1807.01726)
 2. [Towards End-to-End Lane Detection: an Instance Segmentation Approach](https://arxiv.org/pdf/1802.05591)
@@ -463,7 +486,7 @@ python bdd100k_transform.py --src_dir path/to/bdd100k --val True --test True
 9. [Feature Pyramid Networks for Object Detection](https://arxiv.org/pdf/1612.03144)
 10. [ImageNet Large Scale Visual Recognition Challenge](https://arxiv.org/pdf/1409.0575)
 
-## Contributors
+## 13. Contributors
 
 - [Jordi Sabates](https://www.github.com/jsabahu)
 - [Marc Ramon](https://github.com/MarcRamonMoreno)
